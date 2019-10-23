@@ -1,0 +1,47 @@
+Entidades:
+	- Torre
+		- Posicao
+		- Range
+		- Dono
+		- Flag (cor)
+	- Player
+		- Posicao
+		- HP
+		- Velocidade
+		- Dano
+		- Flag (cor)
+		- Nick
+		- Status
+	- Manager
+		- Tempo para capturar torre
+		- Ranking
+Comportamentos:
+	- Torre:
+		- spawnar
+		- é dominada
+	- Player:
+		- spawnar
+		+ mover
+		+ atacar
+		- dominar
+		- morrer
+		- increase speed
+		- increase HP
+		- increase dano
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
