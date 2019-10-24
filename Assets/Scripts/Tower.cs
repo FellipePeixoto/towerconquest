@@ -24,16 +24,15 @@ public class Tower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (invaders.Count > 0 && invaders[0] != null)
-            Debug.Log(invaders.Count);
-
         if (invaders.Count == 1 && owner != null && invaders[0] != null && !invaders[0].Equals(owner))
         {
             progress += tick * Time.deltaTime;
 
             if (progress >= 1)
             {
+                owner.towers.Remove(this);
                 owner = invaders[0];
+                owner.towers.Add(this);
                 Manager.instance.Rank.Single((x) => (owner.nick == x.nome)).points
                     += Manager.instance.pointForCapture;
                 progress = 0;
@@ -46,7 +45,11 @@ public class Tower : MonoBehaviour
 
             if (progress >= 1)
             {
+                if (owner != null && owner.towers != null)
+                    owner.towers.Remove(this);
+
                 owner = invaders[0];
+                owner.towers.Add(this);
                 Manager.instance.Rank.Single((x) => (owner.nick == x.nome)).points
                     += Manager.instance.pointForCapture;
                 progress = 0;

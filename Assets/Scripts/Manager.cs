@@ -30,11 +30,11 @@ public class Manager : MonoBehaviour
     [SerializeField] List<Transform> spawnPoints;
     [SerializeField] Color[] colors;
     public static Manager instance;
+    public bool showGizmo = true;
     List<Player> players = new List<Player>();
     List<Tower> towers = new List<Tower>();
     List<RankTupla> rank = new List<RankTupla>();
     bool endGame = false;
-    bool rankExistence = false;
 
     public List<Player> Players
     {
@@ -68,11 +68,6 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        if (rankExistence)
-        {
-
-        }
-
         if (endGame)
             return;
 
@@ -134,7 +129,7 @@ public class Manager : MonoBehaviour
                 var auxPlayer = Instantiate(player, spawnPoints[i].position, spawnPoints[i].rotation)
                     .GetComponent<Player>();
                 auxPlayer.SetScript(filePath);
-                auxPlayer.SetFirstTower(auxTower);
+                auxPlayer.towers.Add(auxTower);
 
                 players.Add(auxPlayer);
                 towers.Add(auxTower);
@@ -153,8 +148,11 @@ public class Manager : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
+        if (!showGizmo)
+            return;
+
         if (spawnPoints == null)
             return;
 
@@ -162,7 +160,7 @@ public class Manager : MonoBehaviour
 
         for (int i = 0; i < spawnPoints.Count; i++)
         {
-            Gizmos.DrawCube(spawnPoints[i].position, spawnPoints[i].localScale);
+            Gizmos.DrawCube(spawnPoints[i].position, spawnPoints[i].localScale * 5);
         }
     }
 }

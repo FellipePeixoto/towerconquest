@@ -27,22 +27,21 @@ public class Player : LuaBehaviour
             {
                 Manager.instance.Players.Remove(this);
                 foreach (Tower tower in Manager.instance.Towers)
-                 {
-                     tower.Invaders.Remove(this);
-                     if (tower.owner == this)
-                         tower.owner = null;
-                 }
+                {
+                    tower.Invaders.Remove(this);
+                    if (tower.owner == this)
+                        tower.owner = null;
+                }
 
-                 Destroy(gameObject);
-                
+                Destroy(gameObject);
+
             }
         }
     }
     public string nick;
     public Color color;
     public NavMeshAgent navMeshAgent;
-
-    Tower tower;
+    public List<Tower> towers = new List<Tower>();
 
     public void SetScript(string path)
     {
@@ -53,7 +52,7 @@ public class Player : LuaBehaviour
 
         try
         {
-            source =  File.ReadAllText(path);
+            source = File.ReadAllText(path);
             env.DoString(source);
         }
         catch (NLua.Exceptions.LuaException e)
@@ -64,11 +63,6 @@ public class Player : LuaBehaviour
         {
             Debug.LogError(e.Message, gameObject);
         }
-    }
-
-    public void SetFirstTower(Tower tower)
-    {
-        this.tower = tower;
     }
 
     public void MoveToTower(Tower tower)
@@ -134,15 +128,15 @@ public class Player : LuaBehaviour
             if (player == this)
                 continue;
 
-            if (Vector3.Distance(player.transform.position, transform.position) < minDistance)
+            float dist = Vector3.Distance(player.transform.position, transform.position);
+
+            if (dist < minDistance)
             {
+                minDistance = dist;
                 pl = player;
-                nearestPlayer = player.transform.position;                
+                nearestPlayer = player.transform.position;
             }
         }
-
-        //if (pl != null)
-        //    Debug.Log(pl.nick);
 
         return nearestPlayer;
     }
@@ -153,21 +147,26 @@ public class Player : LuaBehaviour
         Vector3 nearestTower = Vector3.zero + Vector3.up * 10;
         Player pl = null;
 
-
-        foreach (Tower tower in Manager.instance.Towers)
+        try
         {
-            if (tower == this.tower)
-                continue;
+            IEnumerable notMyTowers = Manager.instance.Towers.Where((x) => (x.owner.nick != nick));
 
-            if (Vector3.Distance(tower.transform.position, transform.position) < minDistance)
+            foreach (Tower tower in notMyTowers)
             {
-                pl = tower.owner;
-                nearestTower = tower.transform.position;
+                float dist = Vector3.Distance(tower.transform.position, transform.position);
+
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    pl = tower.owner;
+                    nearestTower = tower.transform.position;
+                }
             }
         }
+        catch
+        {
 
-        if (pl != null)
-            Debug.Log(pl.nick);
+        }        
 
         return nearestTower;
     }
@@ -176,7 +175,7 @@ public class Player : LuaBehaviour
     {
         this.color = color;
         GetComponent<MeshRenderer>().material.color = color;
-        tower.ChangeColor(color);
+        towers[0].ChangeColor(color);
         textMeshPro.color = color;
     }
 }

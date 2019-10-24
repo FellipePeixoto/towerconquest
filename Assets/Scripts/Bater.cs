@@ -19,11 +19,9 @@ public class Bater : MonoBehaviour
                     RankTupla rankTupla = Manager.instance.Rank.Single((x) => (x.nome == player.nick));
                     rankTupla.points += Manager.instance.pointForKill;
                 }
-                catch (System.InvalidOperationException e)
+                catch (System.InvalidOperationException)
                 {
-                    //player.myPoints = Manager.instance.pointForKill;
-                    //Manager.instance.Rank.Add(new RankTupla(player.myPoints, player.nick));
-                    //Debug.Log(player.myPoints);
+
                 }
             }
         }
