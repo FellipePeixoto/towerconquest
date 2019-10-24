@@ -271,11 +271,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptPath: 
   textMeshPro: {fileID: 5519137532929354431}
-  ID: 0
   hp: 3
   nick: 
   color: {r: 0, g: 0, b: 0, a: 0}
   navMeshAgent: {fileID: 5077894323436951263}
+  towers: []
 --- !u!195 &5077894323436951263
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -286,7 +286,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 7
+  m_Speed: 12
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

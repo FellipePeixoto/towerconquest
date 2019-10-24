@@ -23,6 +23,9 @@ public class Manager : MonoBehaviour
     [SerializeField] GameObject tower;
     [SerializeField] GameObject player;
     [SerializeField] GameObject canvas;
+    [SerializeField] GameObject startScreen;
+    [SerializeField] GameObject endScreen;
+    [SerializeField] Text rankShow;
     [SerializeField] GameObject EndStartChecker;
     [SerializeField] InputField inputField;
     [SerializeField] public int pointForKill = 1;
@@ -64,6 +67,8 @@ public class Manager : MonoBehaviour
     {
         instance = this;
         canvas.SetActive(true);
+        startScreen.SetActive(true);
+        endScreen.SetActive(false);
     }
 
     void Update()
@@ -98,12 +103,31 @@ public class Manager : MonoBehaviour
         //TODO: Fazer o fim do jogo
         endGame = true;
 
+        foreach(Tower t in towers)
+        {
+            Destroy(t.gameObject);
+        }
+
+        foreach(Player p in players)
+        {
+            Destroy(p.gameObject);
+        }
+
         IEnumerable ordered = Rank.OrderByDescending((x) => x.points);
+
+        rankShow.text = "Rank: \n";
+
+        int i = 1;
 
         foreach (RankTupla rankTupla in ordered)
         {
-            Debug.Log("Nome: " + rankTupla.nome + " ---- Pontos: " + rankTupla.points);
+            rankShow.text += i + "° - Nome: " + rankTupla.nome  + " com " + rankTupla.points + "\n";
+            i++;
         }
+
+        canvas.SetActive(true);
+        startScreen.SetActive(false);
+        endScreen.SetActive(true);
     }
 
     public void LoadScripts()
@@ -139,6 +163,8 @@ public class Manager : MonoBehaviour
 
             Instantiate(EndStartChecker);
 
+            startScreen.SetActive(false);
+            endScreen.SetActive(false);
             canvas.SetActive(false);
 
         }

@@ -92,6 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 4762791509185818400, guid: 9a41b9e6227c3fa4cb86cc9aa21048cd, type: 3}
+  tick: 0.5
+  owner: {fileID: 0}
 --- !u!135 &4526128815133505857
 SphereCollider:
   m_ObjectHideFlags: 0
